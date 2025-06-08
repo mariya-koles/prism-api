@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Flyway migration generator
+# Usage:
+#   ./flyway -V "create_patient_table"
+#   ./flyway -U "create_patient_table"
+#   ./flyway -R "refresh_patient_view"
+
+MIGRATION_DIR="src/main/resources/db/migration"
+
+usage() {
+  echo "Usage:"
+  echo "  $0 -V \"description\"  # Create versioned migration"
+  echo "  $0 -U \"description\"  # Create undo migration"
+  echo "  $0 -R \"description\"  # Create repeatable migration"
+  exit 1
+}
+
+if [ $# -ne 2 ]; then
+  usage
+fi
+
+FLAG=$1
+DESCRIPTION=$2
+TIMESTAMP=$(date +"%Y%m%d%H%M%S")
+DESCRIPTION_SANITIZED="${DESCRIPTION// /_}"
+
+mkdir -p "$MIGRATION_DIR"
+
+case $FLAG in
+  -V)
+    FILENAME="V${TIMESTAMP}__${DESCRIPTION_SANITIZED}.sql"
+    ;;
+  -U)
+    FILENAME="U${TIMESTAMP}__${DESCRIPTION_SANITIZED}.sql"
+    ;;
+  -R)
+    FILENAME="R__${DESCRIPTION_SANITIZED}.sql"
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+FULLPATH="${MIGRATION_DIR}/${FILENAME}"
+
+if [ -e "$FULLPATH" ]; then
+  echo "File already exists: $FULLPATH"
+  exit 1
+fi
+
+cat > "$FULLPATH" <<EOF
+-- Migration: $DESCRIPTION
+-- Type: ${FLAG/-/}
+-- Created at: $(date)
+
+EOF
+
+echo "Created migration: $FULLPATH"

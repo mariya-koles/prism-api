@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# Development configuration
+cors:
+  allowed-origins: http://localhost:3000
+
+# Logging configuration for development
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
