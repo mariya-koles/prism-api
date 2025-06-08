@@ -1,26 +1,21 @@
 package com.platform.prism.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Configuration class that customizes the default Jackson {@link ObjectMapper}
  * used for JSON serialization and deserialization throughout the application.
- *
- * <p>This configuration registers two important modules:
- * <ul>
- *   <li>{@link Hibernate6Module} - to handle serialization of Hibernate-managed entities
- *       and prevent lazy-loading during JSON serialization.</li>
- *   <li>{@link JavaTimeModule} - to enable proper handling of Java 8 date and time types
- *       like {@code LocalDate} and {@code LocalDateTime}.</li>
- * </ul>
- *
- * <p>By providing a custom {@code ObjectMapper} bean, this configuration
+ * This configuration registers two important modules:
+ * {@link Hibernate6Module} - to handle serialization of Hibernate-managed entities
+ *       and prevent lazy-loading during JSON serialization.
+ * {@link JavaTimeModule} - to enable proper handling of Java 8 date and time types
+ *       like {@code LocalDate} and {@code LocalDateTime}.
+ * By providing a custom {@code ObjectMapper} bean, this configuration
  * overrides Spring Boot’s default setup, ensuring consistent behavior across
  * the application when converting Java objects to/from JSON.
  *
@@ -47,6 +42,9 @@ public class JacksonConfig {
 
         // Add Java 8 date/time support
         mapper.registerModule(new JavaTimeModule());
+
+        // This ensures LocalDate will serialize as "2025-06-08"
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         return mapper;
     }
