@@ -3,7 +3,7 @@ package com.platform.prism.service;
 import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;
 import com.platform.prism.repository.PatientRepository;
-import com.platform.prism.util.PatientMapper;
+import com.platform.prism.util.mapper.PatientMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private final AuditService auditService;
+
     private final PatientMapper patientMapper;
 
     public List<Patient> getAllPatients() {
