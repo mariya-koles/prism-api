@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,8 +31,9 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Table(name = "patient")
+@Audited
 @Schema(description = "User model used for login and registration")
-public class Patient extends AuditableEntity {
+public class Patient {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id

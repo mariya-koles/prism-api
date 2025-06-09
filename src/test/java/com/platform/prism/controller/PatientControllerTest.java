@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;
 import com.platform.prism.service.PatientService;
-import com.platform.prism.util.PatientMapper;
+import com.platform.prism.util.mapper.PatientMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

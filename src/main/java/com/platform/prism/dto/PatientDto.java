@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PatientDto implements Serializable {
 
-    @Schema(description = "Patient ID", example = "1")
+    @Schema(description = "Patient ID", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     Long id;
 
     @NotBlank(message = "First name is required")

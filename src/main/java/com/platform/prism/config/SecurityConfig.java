@@ -15,14 +15,17 @@ public class SecurityConfig {
     /**
      * Configures the HTTP security filter chain for the application.
      * This method defines which endpoints require authentication and which are publicly accessible,
-     * sets up form-based login and HTTP Basic authentication, and disables CSRF protection for ease of testing.
+     * sets up form-based login and HTTP Basic authentication, and disables CSRF protection
+     * for ease of testing.
      * Specifically:
      *     Permits unauthenticated access to Swagger UI and OpenAPI documentation endpoints.
      *     Requires authentication for all other endpoints.
      *     Enables Spring Security’s default login form and HTTP Basic authentication.
-     *     Disables CSRF protection, which is typically required for non-browser clients like Postman or Swagger UI.
+     *     Disables CSRF protection, which is typically required for non-browser clients like
+     *     Postman or Swagger UI.
      *
      * @param http the {@link HttpSecurity} object used to customize web security behavior
+     * @param env the {@link Environment} object used to specify if test/dev/prod etc
      * @return the configured {@link SecurityFilterChain} bean
      * @throws Exception if an error occurs during security configuration
      */
