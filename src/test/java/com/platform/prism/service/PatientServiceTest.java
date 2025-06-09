@@ -3,7 +3,6 @@ package com.platform.prism.service;
 import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;
 import com.platform.prism.repository.PatientRepository;
-import com.platform.prism.util.mapper.PatientMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.platform.prism.util.mapper;
+package com.platform.prism.util;
 
 import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;

@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @ToString
 @Table(name = "patient")
 @Schema(description = "User model used for login and registration")
-public class Patient {
+public class Patient extends AuditableEntity {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id

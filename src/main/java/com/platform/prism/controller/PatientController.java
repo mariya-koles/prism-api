@@ -3,7 +3,7 @@ package com.platform.prism.controller;
 import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;
 import com.platform.prism.service.PatientService;
-import com.platform.prism.util.mapper.PatientMapper;
+import com.platform.prism.util.PatientMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
