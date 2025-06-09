@@ -11,7 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -35,7 +37,7 @@ class PatientServiceTest {
         existingPatient.setFirstName("Alice");
         existingPatient.setLastName("Smith");
         existingPatient.setDateOfBirth(LocalDate.of(1990, 1, 1));
-
+        existingPatient.setMedications(new HashSet<>());
         existingPatient = patientRepository.save(existingPatient);
     }
 
@@ -67,6 +69,7 @@ class PatientServiceTest {
         updateDto.setFirstName("Updated");
         updateDto.setLastName("Patient");
         updateDto.setDateOfBirth(LocalDate.of(1985, 5, 15));
+        updateDto.setMedications(Set.of());
 
         PatientDto updated = patientService.updatePatient(existingPatient.getId(), updateDto);
 
@@ -76,6 +79,7 @@ class PatientServiceTest {
         Patient reloaded = patientRepository.findById(existingPatient.getId()).orElseThrow();
         assertThat(reloaded.getFirstName()).isEqualTo("Updated");
     }
+
 
     @Test
     void shouldSaveNewPatient() {

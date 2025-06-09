@@ -12,14 +12,15 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     properties:
+      hibernate.integration.envers.enabled: false
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
 
-  security:
-    user:
-      name: testuser
-      password: testpass
+security:
+  user:
+    name: testuser
+    password: testpass
 
 logging:
   level:

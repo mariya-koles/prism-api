@@ -7,6 +7,7 @@ import com.platform.prism.util.mapper.PatientMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,12 +23,14 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public PatientDto getPatientById(Long id) {
         return patientRepository.findById(id)
                 .map(patientMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found"));
     }
 
+    @Transactional
     public PatientDto updatePatient(Long id, PatientDto dto) {
         Patient existing = patientRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found"));

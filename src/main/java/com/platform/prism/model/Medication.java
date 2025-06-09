@@ -72,6 +72,4 @@ public class Medication {
     @Column(name = "product_type_name", length = 100)
     private String productTypeName;
 
-    @ManyToMany(mappedBy = "medications")
-    private Set<Patient> patients = new HashSet<>();
 }

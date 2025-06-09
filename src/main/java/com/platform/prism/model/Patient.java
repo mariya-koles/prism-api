@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -107,6 +108,7 @@ public class Patient {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToMany
     @JoinTable(
             name = "patient_medication",
