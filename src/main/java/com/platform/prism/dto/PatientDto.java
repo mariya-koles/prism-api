@@ -17,6 +17,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * DTO for {@link Patient}
@@ -83,4 +84,7 @@ public class PatientDto implements Serializable {
     @Schema(description = "Timestamp when the patient record was last updated", example = "2024-06-01T13:45:00",
             accessMode = Schema.AccessMode.READ_ONLY)
     LocalDateTime updatedAt;
+
+    @Schema(description = "Medications associated with this patient")
+    private Set<MedicationDto> medications;
 }

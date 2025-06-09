@@ -32,9 +32,7 @@ public class PatientService {
         Patient existing = patientRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found"));
 
-        existing.setFirstName(dto.getFirstName());
-        existing.setLastName(dto.getLastName());
-        existing.setDateOfBirth(dto.getDateOfBirth());
+        patientMapper.updateEntityFromDto(dto, existing);
 
         Patient updated = patientRepository.save(existing);
         return patientMapper.toDto(updated);
