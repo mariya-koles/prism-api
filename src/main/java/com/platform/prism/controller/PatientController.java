@@ -4,6 +4,7 @@ import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;
 import com.platform.prism.service.PatientService;
 import com.platform.prism.util.mapper.PatientMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@SecurityRequirement(name = "basicAuth")
 @RequiredArgsConstructor
 @RequestMapping("/patients")
 public class PatientController {

@@ -3,8 +3,9 @@ package com.platform.prism.util.mapper;
 import com.platform.prism.dto.PatientDto;
 import com.platform.prism.model.Patient;
 import org.mapstruct.Mapper;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface PatientMapper {
 
     PatientDto toDto(Patient patient);

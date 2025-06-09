@@ -1,5 +1,6 @@
 package com.platform.prism.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.platform.prism.model.Patient;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -73,9 +74,13 @@ public class PatientDto implements Serializable {
     @Schema(description = "Additional notes about the patient", example = "Allergic to penicillin")
     String notes;
 
-    @Schema(description = "Timestamp when the patient record was created", example = "2024-06-01T12:34:56")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(description = "Timestamp when the patient record was created", example = "2024-06-01T12:34:56",
+            accessMode = Schema.AccessMode.READ_ONLY)
     LocalDateTime createdAt;
 
-    @Schema(description = "Timestamp when the patient record was last updated", example = "2024-06-01T13:45:00")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(description = "Timestamp when the patient record was last updated", example = "2024-06-01T13:45:00",
+            accessMode = Schema.AccessMode.READ_ONLY)
     LocalDateTime updatedAt;
 }

@@ -1,4 +1,8 @@
 spring:
+  security:
+    user:
+      name: test
+      password: test
   jpa:
     hibernate:
       ddl-auto: none
