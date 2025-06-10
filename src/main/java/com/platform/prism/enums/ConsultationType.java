@@ -1,4 +1,4 @@
-package com.yourpackage.model;
+package com.platform.prism.enums;
 
 public enum ConsultationType {
     NUTRITIONAL,
