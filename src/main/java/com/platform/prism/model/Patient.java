@@ -117,4 +117,13 @@ public class Patient {
     )
     private Set<Medication> medications = new HashSet<>();
 
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToMany
+    @JoinTable(
+            name = "patient_allergy",
+            joinColumns = @JoinColumn(name = "patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "allergy_id")
+    )
+    private Set<Allergy> allergies = new HashSet<>();
+
 }
