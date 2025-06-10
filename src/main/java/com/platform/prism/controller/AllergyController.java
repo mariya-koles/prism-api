@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @SecurityRequirement(name = "basicAuth")
 @RequiredArgsConstructor
 @RequestMapping("/allergies")
-public class AllergyController {
+public class  AllergyController {
 
     private final AllergyService allergyService;
 
