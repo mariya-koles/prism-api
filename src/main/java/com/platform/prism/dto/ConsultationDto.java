@@ -1,6 +1,7 @@
 package com.platform.prism.dto;
 
 
+import com.platform.prism.enums.ConsultationType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,7 @@ public class ConsultationDto implements Serializable {
 
     @NotNull(message = "Consultation type is required")
     @Schema(description = "Type of consultation", example = "WELLNESS")
-    private com.yourpackage.model.ConsultationType consultationType;
+    private ConsultationType consultationType;
 
     @Schema(description = "Date the consultation occurred", example = "2025-06-10T14:30:00")
     private LocalDateTime date;
