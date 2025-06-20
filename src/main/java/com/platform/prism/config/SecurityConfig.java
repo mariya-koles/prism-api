@@ -7,49 +7,90 @@ import org.springframework.core.env.Profiles;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.time.Duration;
+import java.util.UUID;
 
 @Configuration
 public class SecurityConfig {
 
     /**
-     * Configures the HTTP security filter chain for the application.
-     * This method defines which endpoints require authentication and which are publicly accessible,
-     * sets up form-based login and HTTP Basic authentication, and disables CSRF protection
-     * for ease of testing.
-     * Specifically:
-     *     Permits unauthenticated access to Swagger UI and OpenAPI documentation endpoints.
-     *     Requires authentication for all other endpoints.
-     *     Enables Spring Security’s default login form and HTTP Basic authentication.
-     *     Disables CSRF protection, which is typically required for non-browser clients like
-     *     Postman or Swagger UI.
-     *
-     * @param http the {@link HttpSecurity} object used to customize web security behavior
-     * @param env the {@link Environment} object used to specify if test/dev/prod etc
-     * @return the configured {@link SecurityFilterChain} bean
-     * @throws Exception if an error occurs during security configuration
+     * Authorization server filter chain — handles /oauth2/** requests only.
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, Environment env) throws Exception {
+    public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
+        http.securityMatcher(new AntPathRequestMatcher("/oauth2/**")); // match only OAuth2 endpoints
+
+        return http.build();
+    }
+
+    /**
+     * Main application security filter chain.
+     * Allows Swagger in dev, requires auth elsewhere.
+     */
+    @Bean
+    public SecurityFilterChain appSecurityFilterChain(HttpSecurity http, Environment env) throws Exception {
         boolean isDev = env.acceptsProfiles(Profiles.of("dev"));
 
         http
                 .authorizeHttpRequests(auth -> {
                     if (isDev) {
                         auth.requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
+                                "/swagger-ui.html", "/swagger-ui/**",
+                                "/v3/api-docs/**", "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll();
                     }
+                    auth.requestMatchers("/oauth2/**").permitAll(); // allow OAuth2 endpoints here too
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable)
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
+    }
+
+    /**
+     * Temporary in-memory OAuth2 client registration.
+     */
+    @Bean
+    public RegisteredClientRepository registeredClientRepository() {
+        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("prism-client")
+                .clientSecret("{noop}secret")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scope("read")
+                .scope("write")
+                .tokenSettings(TokenSettings.builder()
+                        .accessTokenTimeToLive(Duration.ofHours(1))
+                        .build())
+                .build();
+
+        return new InMemoryRegisteredClientRepository(registeredClient);
+    }
+
+    /**
+     * Configures the base URL of the issuing server for JWTs.
+     */
+    @Bean
+    public AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer("http://localhost:8080")
+                .build();
     }
 }
