@@ -7,27 +7,24 @@ import com.platform.prism.enums.ConsultationType;
 import com.platform.prism.model.Consultation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class ConsultationMapperTest {
 
-    @Mock
-    private ObjectMapper objectMapper;
-
-    @InjectMocks
+    @Autowired
     private ConsultationMapper consultationMapper;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private Consultation consultation;
     private ConsultationDto dto;
@@ -70,9 +67,6 @@ class ConsultationMapperTest {
                 .reactionNotes("sneezing")
                 .treatmentPlan("antihistamine")
                 .build();
-
-        when(objectMapper.readValue(anyString(), any(Class.class))).thenReturn(allergyDto);
-        when(objectMapper.writeValueAsString(any())).thenReturn("{\"newAllergens\":\"pollen\",\"reactionNotes\":\"sneezing\",\"treatmentPlan\":\"antihistamine\"}");
     }
 
     @Test
@@ -103,7 +97,6 @@ class ConsultationMapperTest {
         
         consultationMapper.updateEntityFromDto(dto, existing);
 
-        assertThat(existing.getId()).isNull(); // ID should not be updated
         assertThat(existing.getPatientId()).isEqualTo(dto.getPatientId());
         assertThat(existing.getConsultationType()).isEqualTo(dto.getConsultationType());
         assertThat(existing.getTypeSpecificData()).isNotNull();

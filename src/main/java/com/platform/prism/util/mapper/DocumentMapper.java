@@ -3,6 +3,7 @@ package com.platform.prism.util.mapper;
 import com.platform.prism.dto.DocumentDto;
 import com.platform.prism.model.Document;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

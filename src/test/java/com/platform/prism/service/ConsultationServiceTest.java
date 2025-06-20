@@ -44,7 +44,7 @@ class ConsultationServiceTest {
                 .appointmentAt(LocalDateTime.now())
                 .build();
         Consultation consultation2 = Consultation.builder()
-                .consultationType(ConsultationType.WELLNESS)
+                .consultationType(ConsultationType.NUTRITIONAL)
                 .patientId(2L)
                 .date(LocalDateTime.now())
                 .appointmentAt(LocalDateTime.now())
@@ -53,7 +53,7 @@ class ConsultationServiceTest {
 
         List<Consultation> result = consultationService.getAllConsultations();
 
-        assertThat(result).hasSize(2).extracting("consultationType").contains(ConsultationType.ALLERGY_MANAGEMENT, ConsultationType.WELLNESS);
+        assertThat(result).hasSize(2).extracting("consultationType").contains(ConsultationType.ALLERGY_MANAGEMENT, ConsultationType.NUTRITIONAL);
     }
 
     @Test

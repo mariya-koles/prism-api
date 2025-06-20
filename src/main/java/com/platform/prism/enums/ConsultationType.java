@@ -2,7 +2,6 @@ package com.platform.prism.enums;
 
 public enum ConsultationType {
     NUTRITIONAL,
-    WELLNESS,
     DIABETES,
     BLOOD_PRESSURE,
     CARDIAC,

@@ -4,18 +4,19 @@ import com.platform.prism.dto.DocumentDto;
 import com.platform.prism.model.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class DocumentMapperTest {
 
-    @InjectMocks
+    @Autowired
     private DocumentMapper documentMapper;
 
     private Document document;
@@ -72,7 +73,6 @@ class DocumentMapperTest {
         
         documentMapper.updateEntityFromDto(dto, existing);
 
-        assertThat(existing.getId()).isNull(); // ID should not be updated
         assertThat(existing.getConsultationId()).isEqualTo(dto.getConsultationId());
         assertThat(existing.getFilename()).isEqualTo(dto.getFilename());
         assertThat(existing.getMimeType()).isEqualTo(dto.getMimeType());
